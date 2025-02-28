@@ -1,0 +1,84 @@
+<!-- Halaman Daftar Identitas -->
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Identitas</title>
+    <style>
+        body {
+            background: url('bg2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        
+        .container {
+            margin: 50px auto;
+            width: 300px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Masukkan Identitas</h2>
+        <form id="identitasForm">
+            <input type="text" id="nim" placeholder="Masukkan NIM" required>
+            <input type="text" id="nama" placeholder="Masukkan Nama" required>
+            <input type="text" id="alamat" placeholder="Masukkan Alamat" required>
+            <input type="date" id="tanggal_lahir" required>
+            <input type="text" id="hobi" placeholder="Masukkan Hobi" required>
+            <input type="text" id="nomor_hp" placeholder="Masukkan Nomor HP" required>
+            <button type="button" onclick="simpanIdentitas()">Simpan</button>
+        </form>
+    </div>
+    <script>
+        function simpanIdentitas() {
+            let nim = document.getElementById('nim').value;
+            let nama = document.getElementById('nama').value;
+            let alamat = document.getElementById('alamat').value;
+            let tanggal_lahir = document.getElementById('tanggal_lahir').value;
+            let hobi = document.getElementById('hobi').value;
+            let nomor_hp = document.getElementById('nomor_hp').value;
+            let anggota = JSON.parse(localStorage.getItem('anggota')) || [];
+
+            let exist = anggota.some(item => item.nim === nim);
+            if (exist) {
+                alert('NIM sudah terdaftar!');
+                return;
+            }
+
+            if (nim && nama && alamat && tanggal_lahir && hobi && nomor_hp) {
+                anggota.push({
+                    nim,
+                    nama,
+                    alamat,
+                    tanggal_lahir,
+                    hobi,
+                    nomor_hp
+                });
+                localStorage.setItem('anggota', JSON.stringify(anggota));
+                alert('Identitas berhasil disimpan!');
+                document.getElementById('identitasForm').reset();
+            } else {
+                alert('Harap isi semua data!');
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!-- Halaman Anggota 2023 dengan Opsi Hanya Admin Bisa Hapus Nama -->
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Anggota 2023</title>
+    <style>
+        body {
+            background: url('bg1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        
+        .container {
+            margin: 50px auto;
+            width: 80%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        
+        .anggota-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .anggota-list li {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hapus-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Daftar Nama Anggota 2023</h2>
+        <ul id="anggotaList" class="anggota-list"></ul>
+    </div>
+    <script>
+        let anggota = JSON.parse(localStorage.getItem('anggota')) || [];
+        let anggotaList = document.getElementById('anggotaList');
+        let adminNIM = "F1B02310027";
+        let loggedInNIM = localStorage.getItem('loggedInNIM');
+
+        function tampilkanAnggota() {
+            anggotaList.innerHTML = '';
+            anggota.forEach((member, index) => {
+                let li = document.createElement('li');
+                li.textContent = `${member.nama} (${member.nim})`;
+                li.onclick = function() {
+                    alert(`Nama: ${member.nama}\nNIM: ${member.nim}\nAlamat: ${member.alamat}\nTanggal Lahir: ${member.tanggal_lahir}\nHobi: ${member.hobi}\nNomor HP: ${member.nomor_hp}`);
+                };
+
+                if (loggedInNIM === adminNIM) {
+                    let hapusBtn = document.createElement('button');
+                    hapusBtn.textContent = 'Hapus';
+                    hapusBtn.classList.add('hapus-btn');
+                    hapusBtn.onclick = function(event) {
+                        event.stopPropagation();
+                        if (confirm(`Apakah Anda yakin ingin menghapus ${member.nama}?`)) {
+                            anggota.splice(index, 1);
+                            localStorage.setItem('anggota', JSON.stringify(anggota));
+                            tampilkanAnggota();
+                        }
+                    };
+                    li.appendChild(hapusBtn);
+                }
+
+                anggotaList.appendChild(li);
+            });
+        }
+
+        tampilkanAnggota();
+    </script>
+</body>
+
+</html>

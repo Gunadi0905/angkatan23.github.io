@@ -1,0 +1,60 @@
+<!-- Halaman Login -->
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background: url('bg1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        
+        .container {
+            margin: 50px auto;
+            width: 300px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" id="nimLogin" placeholder="Masukkan NIM" required>
+            <button type="button" onclick="cekLogin()">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function cekLogin() {
+            let nimLogin = document.getElementById('nimLogin').value;
+            let anggota = JSON.parse(localStorage.getItem('anggota')) || [];
+            let validUser = anggota.find(user => user.nim === nimLogin);
+
+            if (validUser) {
+                window.location.href = "discord.html";
+            } else {
+                alert('NIM tidak ditemukan!');
+            }
+        }
+    </script>
+</body>
+
+</html>
